@@ -1,33 +1,34 @@
-
 <!DOCTYPE html>
 <html lang="en">
+
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Commits per Minute</title>
+    <title>Graphique de mes Commits</title>
     <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
 </head>
+
 <body>
-    <h1>Commits per Minute</h1>
+    <h1> Graphique de mes Commits</h1>
     <canvas id="commitsChart" width="400" height="200"></canvas>
     <script>
-        async function fetchData() {
-            const response = await fetch('/commits-data');
+        async function fetchCommitsData() {
+            const response = await fetch('/commits/data');
             const data = await response.json();
-            return data;
+            return data.commit_minutes;
         }
 
-        function renderChart(data) {
+        function renderChart(commitMinutes) {
             const ctx = document.getElementById('commitsChart').getContext('2d');
-            new Chart(ctx, {
-                type: 'bar',
+            const chart = new Chart(ctx, {
+                type: 'bar', // 'lines', 'bar', 'pie', etc.
                 data: {
-                    labels: Object.keys(data),
+                    labels: commitMinutes.map((minute, index) => index + 1),
                     datasets: [{
-                        label: 'Number of Commits',
-                        data: Object.values(data),
-                        backgroundColor: 'rgba(75, 192, 192, 0.2)',
+                        label: 'Commits par Minutes',
+                        data: commitMinutes,
                         borderColor: 'rgba(75, 192, 192, 1)',
+                        backgroundColor: 'rgba(75, 192, 192, 0.2)',
                         borderWidth: 1
                     }]
                 },
@@ -41,7 +42,11 @@
             });
         }
 
-        fetchData().then(data => renderChart(data));
+        document.addEventListener('DOMContentLoaded', async () => {
+            const commitMinutes = await fetchCommitsData();
+            renderChart(commitMinutes);
+        });
     </script>
 </body>
+
 </html>
