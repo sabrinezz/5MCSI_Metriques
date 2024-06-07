@@ -10,10 +10,14 @@
             background-color: #f4f4f4;
             margin: 0;
             padding: 0;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            height: 100vh;
         }
         .container {
-            max-width: 600px;
-            margin: 50px auto;
+            width: 100%;
+            max-width: 400px;
             padding: 20px;
             background-color: #fff;
             box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
@@ -28,13 +32,13 @@
             flex-direction: column;
         }
         label {
-            margin-bottom: 10px;
+            margin-bottom: 5px;
             color: #555;
         }
         input, textarea {
-            margin-bottom: 20px;
+            margin-bottom: 15px;
             padding: 10px;
-            font-size: 16px;
+            font-size: 14px;
             border: 1px solid #ccc;
             border-radius: 4px;
         }
@@ -43,6 +47,9 @@
             color: white;
             border: none;
             cursor: pointer;
+            padding: 10px;
+            font-size: 16px;
+            border-radius: 4px;
             transition: background-color 0.3s ease;
         }
         input[type="submit"]:hover {
@@ -53,7 +60,7 @@
 <body>
     <div class="container">
         <h1>Contactez-nous</h1>
-        <form action="traitement_contact.php" method="post">
+        <form>
             <label for="nom">Nom:</label>
             <input type="text" id="nom" name="nom" required>
 
@@ -61,7 +68,7 @@
             <input type="text" id="prenom" name="prenom" required>
 
             <label for="message">Message:</label>
-            <textarea id="message" name="message" rows="5" required></textarea>
+            <textarea id="message" name="message" rows="4" required></textarea>
 
             <input type="submit" value="Envoyer">
         </form>
