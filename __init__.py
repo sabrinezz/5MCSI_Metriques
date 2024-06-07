@@ -32,11 +32,11 @@ def extract_minutes(commits):
         minutes.append(date_object.minute)
     return Counter(minutes)
 
-@app.route('/commits')
+@app.route('/commits/')
 def show_commits():
     return render_template('commits.html')
 
-@app.route('/commits-data')
+@app.route('/commits/data')
 def get_commits_data():
     commits = get_commits()
     counter = extract_minutes(commits)
