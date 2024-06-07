@@ -18,32 +18,25 @@ def mongraphique():
 def histogramme():
     return render_template("histogramme.html")
 
-def get_commits():
-    url = "https://api.github.com/repos/OpenRSI/5MCSI_Metriques/commits"
-    response = requests.get(url)
-    commits = response.json()
-    return commits
-
-def extract_minutes(commits):
-    minutes = []
-    for commit in commits:
-        date_string = commit['commit']['author']['date']
-        date_object = datetime.strptime(date_string, '%Y-%m-%dT%H:%M:%SZ')
-        minutes.append(date_object.minute)
-    return Counter(minutes)
-
-@app.route('/commits/')
-def show_commits():
-    return render_template('commits.html')
-
 @app.route('/commits/data')
 def get_commits_data():
-    commits = get_commits()
-    counter = extract_minutes(commits)
-    return jsonify(counter)
+    url = 'https://api.github.com/repos/sabrinezz/5MCSI_Metriques/commits'
+    response = urlopen(url)
+    raw_content = response.read()
+    json_content = json.loads(raw_content.decode('utf-8'))
+    
+    commit_minutes = []
+    for commit in json_content:
+        date_string = commit['commit']['author']['date']
+        date_object = datetime.strptime(date_string, '%Y-%m-%dT%H:%M:%SZ')
+        commit_minutes.append(date_object.minute)
+    
+    return jsonify(commit_minutes=commit_minutes)
+ 
 
-if __name__ == '__main__':
-    app.run(debug=True)
+@app.route("/commits/")
+def commits():
+    return render_template("commits.html")
   
 @app.route("/contact/")
 def MaPremiereAPI():
